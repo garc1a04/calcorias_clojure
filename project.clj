@@ -7,8 +7,9 @@
                  [ring/ring-defaults "0.3.2"]
                  [cheshire "5.8.1"]
                  [clj-http "3.9.1"]]
-  
+
   :plugins [[lein-ring "0.12.5"]]
+  :main ^:skip-aot calcorias.core
   :ring {:handler calcorias.handler/app}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
