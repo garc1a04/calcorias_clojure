@@ -22,11 +22,11 @@
 (defn result []
   @db)
 
-(defn add_user []
-  )
+(defn add_user [req]
+  (swap! db assoc :user req))
 
-(defn add_calories []
-  )
+(defn add_calories [req]
+  (swap! db assoc :calories req))
 
 ;; Terá paginação?
 (defn find_calories []

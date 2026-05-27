@@ -5,17 +5,17 @@
             [calcorias.use-case.find-calories :as find_calories]
             [calcorias.use-case.find-user :as find_user]))
 
-(defn add_user []
-  (add_user/execute))
+(defn add_user [req]
+  (add_user/execute req))
 
-(defn add_food []
-  (add_food/execute))
+(defn add_food [req]
+  (add_food/execute req))
 
-(defn add_exercise []
-  (add_exercise/execute))
+(defn add_exercise [req]
+  (add_exercise/execute req))
 
 (defn find_calories []
-  (find_calories/execute))
+  (find_calories/execute ))
 
 (defn find_user []
-  (find_user/execute))
+  (find_user/execute ))

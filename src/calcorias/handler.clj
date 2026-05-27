@@ -2,28 +2,46 @@
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
+            [ring.middleware.json :refer [wrap-json-body]]
             [cheshire.core :as json]
-            [calcorias.service :as service]))
+            [calcorias.service :as service]
+            [shared.validations :as validation]))
 
-(defn json [data]
+(defn json [data status]
   {:headers {"Content-Type" "application/json; charset=utf-8"}
-   :body (json/generate-string data)})
+   :body (json/generate-string data)
+   :status status})
 
 (defroutes app-routes
-  (POST "/api/user" [] (json (service/add_user))) ;; "Cadastrar dados pessoais (altura, peso, idade e sexo);"
+  ;; "Cadastrar dados pessoais (altura, peso, idade e sexo);"
+  (POST "/api/user" req
+    (if (validation/user-validations (req :body))
+      (json (service/add_user (req :body)) 200)
+      (json {:message "Request body invalid"} 500)))
 
-  (POST "/api/food" [] (json (service/add_food))) ;; "Registrar consumo de alimento (ganho de caloria);"
+  ;; "Registrar consumo de alimento (ganho de caloria);"
+  (POST "/api/food" req 
+    (if (validation/food-validations (req :body)) 
+      (json (service/add_food (req :body)) 200)
+      (json {:message "Request body invalid"} 500)))
 
-  (POST "/api/burned" [] (json (service/add_exercise))) ;; "Registrar realização de atividade física (perda de caloria);"
+  ;; "Registrar realização de atividade física (perda de caloria);"
+  (POST "/api/burned" req     
+    (if (validation/burned-validations (req :body))
+      (json (service/add_exercise) 200)
+      (json {:message "Request body invalid"} 500)))
 
-  (GET "/api/user" [] (json (service/find_user))) ;; Consultar dados pessoais (altura, peso, idade e sexo);
+  ;; Consultar dados pessoais (altura, peso, idade e sexo);
+  (GET "/api/user" [] (json (service/find_user) 201)) 
 
-  (GET "/api/food" [] (json {:mensage "NÃO ENTENDI :)"}))   ;; "Consultar extrato de transações (por período);"
+  ;; "Consultar extrato de transações (por período);"
+  (GET "/api/????" [] (json {:mensage "NÃO ENTENDI :)"} 201))   
 
-  (GET "/api/calories" [] (json (service/find_user))) ;; Consultar saldo de calorias (por período).
+  ;; Consultar saldo de calorias (por período).
+  (GET "/api/calories" [] (json (service/find_calories) 201)) 
 
   (route/not-found "Not Found"))
 
 (def app
-  (-> app-routes
-      (wrap-defaults api-defaults)))
+  (-> (wrap-defaults app-routes api-defaults)
+      (wrap-json-body {:keywords? true :bigdecimals? true})))
