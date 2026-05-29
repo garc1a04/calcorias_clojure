@@ -3,4 +3,4 @@
 
 ;; ESTOU UTILIZANDO PARA TESTAR OS CÓDIGOS :)
 (defn -main []
-  (println "TESTE :)"))
+  (println ))
