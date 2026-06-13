@@ -1,8 +1,18 @@
 (ns food.core
-  (:require [clj-http.client :as http-client]))
+  (:require [clj-http.client :as http-client]) 
+  (:import [io.github.cdimascio.dotenv Dotenv]))
+  
+(def config (-> (Dotenv/configure) .load))
+  
+(defn env [key]
+  (.get config key))
 
-(def api-url (System/getenv "URL_FOOD"))
-(def chave (System/getenv "API_KEY_FOOD"))
+
+(def api-url (env "URL_FOOD"))
+(def chave (env "API_KEY_FOOD"))
+
+(println "URL_FOOD: " api-url)
+(println "API_KEY_FOOD: " chave)
 
 ;; valor da kcal é medido em gramas
 (defn api [api-url texto-busca chave]

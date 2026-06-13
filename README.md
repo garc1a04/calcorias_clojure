@@ -256,5 +256,3 @@ Todos os endpoints com `POST` passam por validação antes de processar os dados
 |---|---|
 | USDA FoodData Central | https://fdc.nal.usda.gov/api-guide |
 | API Ninjas Calories Burned | https://api-ninjas.com/api/caloriesburned |
-
-> As chaves de API estão atualmente definidas diretamente no código. Recomenda-se movê-las para variáveis de ambiente (`.env`) em um ambiente de produção.

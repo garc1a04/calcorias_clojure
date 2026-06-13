@@ -87,7 +87,6 @@
               422)))))
 
 (defn burned-validations [req]
-  (println req)
   (and
    (burned_contains req)
    (burned_type req)))

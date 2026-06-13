@@ -1,8 +1,14 @@
 (ns exercise.core
-  (:require [clj-http.client :as http-client]))
+  (:require [clj-http.client :as http-client])
+  (:import [io.github.cdimascio.dotenv Dotenv]))
 
-(def api-url (System/getenv "URL_EXERCISE"))
-(def chave (System/getenv "API_KEY_EXERCISE"))
+(def config (-> (Dotenv/configure) .load))
+
+(defn env [key]
+  (.get config key))
+
+(def api-url (env "URL_EXERCISE"))
+(def chave (env "API_KEY_EXERCISE"))
 
 (defn- toPound [kilograms]
   (* (Integer/parseInt kilograms) 2.205))
